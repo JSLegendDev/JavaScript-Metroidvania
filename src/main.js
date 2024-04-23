@@ -1,3 +1,6 @@
-import kaboom from "../lib/kaboom.mjs";
+import { k } from "./kaboomLoader.js";
+import { room1 } from "./scenes/room-1.js";
 
-kaboom();
+k.scene("room1", () => room1(k));
+
+k.go("room1");
