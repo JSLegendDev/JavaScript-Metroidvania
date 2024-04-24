@@ -7,15 +7,31 @@ export async function room1(k) {
 
   const roomData = await (await fetch("../maps/room1.json")).json();
   const roomLayers = roomData.layers;
-  const roomOrigin = k.vec2(0, k.center().y - 200);
+
+  const map = k.add([k.pos(0, k.center().y - 200)]);
+  const colliders = roomLayers[4].objects;
+
+  for (const collider of colliders) {
+    const polygonPoints = [];
+    for (const { x, y } of collider.polygon) {
+      polygonPoints.push(k.vec2(x, y));
+    }
+    map.add([
+      k.pos(collider.x, collider.y + 16),
+      k.area({ shape: new k.Polygon(polygonPoints) }),
+      k.body({ isStatic: true }),
+    ]);
+  }
 
   k.onDraw(() => {
     for (const layer of roomLayers) {
+      if (layer.type === "objectgroup") continue;
+
       if (
         layer.type === "tilelayer" &&
         (layer.name === "platforms" || layer.name === "props")
       ) {
-        const currentTilePos = k.vec2(roomOrigin);
+        const currentTilePos = k.vec2(map.pos);
         let nbTilesDrawn = 0;
         for (const tile of layer.data) {
           if (nbTilesDrawn % layer.width === 0) {
@@ -41,7 +57,7 @@ export async function room1(k) {
         layer.type === "tilelayer" &&
         (layer.name === "background" || layer.name === "background-2")
       ) {
-        const currentTilePos = k.vec2(roomOrigin);
+        const currentTilePos = k.vec2(map.pos);
         let nbTilesDrawn = 0;
         for (const tile of layer.data) {
           if (nbTilesDrawn % layer.width === 0) {
@@ -65,22 +81,15 @@ export async function room1(k) {
     }
   });
 
-  const player = makePlayer(k, k.vec2(30, 300));
-  player.setControls();
-
-  k.add([
-    k.rect(k.width(), 40),
-    k.area(),
-    k.body({ isStatic: true }),
-    k.pos(0, 500),
-  ]);
-
-  k.add([
-    k.rect(100, 20),
-    k.area(),
-    k.body({ isStatic: true }),
-    k.pos(100, 450),
-  ]);
+  const player = k.add(makePlayer(k));
+  const positions = roomLayers[5].objects;
+  for (const position of positions) {
+    if (position.name === "player") {
+      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setControls();
+      continue;
+    }
+  }
 
   k.onUpdate(() => {
     //k.camPos(k.center());

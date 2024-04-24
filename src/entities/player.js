@@ -1,12 +1,16 @@
-export function makePlayer(k, pos) {
-  return k.add([
-    k.pos(pos),
+export function makePlayer(k) {
+  return k.make([
+    k.pos(),
     k.sprite("player", { anim: "idle" }),
     k.area({ shape: new k.Rect(k.vec2(0, 16), 16, 16) }),
     k.anchor("center"),
     k.body({ mass: 1000 }),
     {
       speed: 150,
+      setPosition(x, y) {
+        this.pos.x = x;
+        this.pos.y = y;
+      },
       setControls() {
         k.onKeyPress((key) => {
           if (key === "space" && this.isGrounded()) {
