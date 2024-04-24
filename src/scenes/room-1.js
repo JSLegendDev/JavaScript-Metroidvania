@@ -72,7 +72,7 @@ export async function room1(k) {
 
           k.drawSprite({
             sprite: "background",
-            frame: tile - 693,
+            frame: tile - 693 - 1,
             pos: currentTilePos,
           });
         }
@@ -93,6 +93,6 @@ export async function room1(k) {
 
   k.onUpdate(() => {
     //k.camPos(k.center());
-    k.camPos(player.pos.x, 400);
+    k.camPos(player.pos.x, 350);
   });
 }
