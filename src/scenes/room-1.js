@@ -1,9 +1,16 @@
+import { drawLayer } from "../utils/drawingUtils.js";
 import { makePlayer } from "../entities/player.js";
 
 export async function room1(k) {
-  k.setBackground("#a2aed5");
+  k.add([
+    k.rect(k.width(), k.height()),
+    k.color(k.Color.fromHex("#a2aed5")),
+    k.fixed(),
+  ]);
+
   k.camScale(4);
-  k.setGravity(2600);
+  k.camPos(170, 270);
+  k.setGravity(3000);
 
   const roomData = await (await fetch("../maps/room1.json")).json();
   const roomLayers = roomData.layers;
@@ -31,25 +38,7 @@ export async function room1(k) {
         layer.type === "tilelayer" &&
         (layer.name === "platforms" || layer.name === "props")
       ) {
-        const currentTilePos = k.vec2(map.pos);
-        let nbTilesDrawn = 0;
-        for (const tile of layer.data) {
-          if (nbTilesDrawn % layer.width === 0) {
-            currentTilePos.x = 0;
-            currentTilePos.y += 16;
-          } else {
-            currentTilePos.x += 16;
-          }
-
-          nbTilesDrawn++;
-          if (tile === 0) continue;
-
-          k.drawSprite({
-            sprite: "tileset",
-            frame: tile - 1,
-            pos: currentTilePos,
-          });
-        }
+        drawLayer(k, layer, map.pos, "tileset", 16);
         continue;
       }
 
@@ -57,25 +46,7 @@ export async function room1(k) {
         layer.type === "tilelayer" &&
         (layer.name === "background" || layer.name === "background-2")
       ) {
-        const currentTilePos = k.vec2(map.pos);
-        let nbTilesDrawn = 0;
-        for (const tile of layer.data) {
-          if (nbTilesDrawn % layer.width === 0) {
-            currentTilePos.x = 0;
-            currentTilePos.y += 16;
-          } else {
-            currentTilePos.x += 16;
-          }
-
-          nbTilesDrawn++;
-          if (tile === 0) continue;
-
-          k.drawSprite({
-            sprite: "background",
-            frame: tile - 693 - 1,
-            pos: currentTilePos,
-          });
-        }
+        drawLayer(k, layer, map.pos, "background", 16, 693);
       }
       continue;
     }
@@ -91,8 +62,15 @@ export async function room1(k) {
     }
   }
 
-  k.onUpdate(() => {
-    //k.camPos(k.center());
-    k.camPos(player.pos.x, 350);
-  });
+  const cameras = roomLayers[6].objects;
+  for (const camera of cameras) {
+    const cameraObj = map.add([
+      k.area({ shape: new k.Rect(k.vec2(0), camera.width, camera.height) }),
+      k.pos(camera.x, camera.y),
+    ]);
+
+    cameraObj.onCollide("player", () => {
+      k.camPos(camera.properties[0].value, camera.properties[1].value);
+    });
+  }
 }

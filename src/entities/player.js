@@ -5,6 +5,7 @@ export function makePlayer(k) {
     k.area({ shape: new k.Rect(k.vec2(0, 16), 16, 16) }),
     k.anchor("center"),
     k.body({ mass: 1000 }),
+    "player",
     {
       speed: 150,
       setPosition(x, y) {
