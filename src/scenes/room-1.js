@@ -53,6 +53,23 @@ export async function room1(k) {
   });
 
   const player = k.add(makePlayer(k));
+
+  k.onUpdate(() => {
+    if (map.pos.x + 160 > player.pos.x) {
+      k.camPos(map.pos.x + 160, k.camPos().y);
+      return;
+    }
+
+    if (player.pos.x > map.pos.x + roomData.width * roomData.tilewidth - 160) {
+      k.camPos(
+        map.pos.x + roomData.width * roomData.tilewidth - 160,
+        k.camPos().y
+      );
+      return;
+    }
+    k.camPos(player.pos.x, k.camPos().y);
+  });
+
   const positions = roomLayers[5].objects;
   for (const position of positions) {
     if (position.name === "player") {
@@ -66,11 +83,21 @@ export async function room1(k) {
   for (const camera of cameras) {
     const cameraObj = map.add([
       k.area({ shape: new k.Rect(k.vec2(0), camera.width, camera.height) }),
-      k.pos(camera.x, camera.y),
+      k.pos(camera.x, camera.y + 16),
     ]);
 
     cameraObj.onCollide("player", () => {
-      k.camPos(camera.properties[0].value, camera.properties[1].value);
+      if (k.camPos().x !== camera.properties[0].value) {
+        k.tween(
+          k.camPos().y,
+          camera.properties[0].value,
+          0.8,
+          (val) => k.camPos(k.camPos().x, val),
+          k.easings.linear
+        );
+
+        //k.camPos(k.camPos().x, camera.properties[0].value);
+      }
     });
   }
 }
