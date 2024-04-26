@@ -1,4 +1,3 @@
-import { drawLayer } from "../utils/drawingUtils.js";
 import { makePlayer } from "../entities/player.js";
 
 export async function room1(k) {
@@ -10,12 +9,12 @@ export async function room1(k) {
 
   k.camScale(4);
   k.camPos(170, 270);
-  k.setGravity(3000);
+  k.setGravity(1000);
 
   const roomData = await (await fetch("../maps/room1.json")).json();
   const roomLayers = roomData.layers;
 
-  const map = k.add([k.pos(0, k.center().y - 200)]);
+  const map = k.add([k.pos(0, k.center().y - 200), k.sprite("room1")]);
   const colliders = roomLayers[4].objects;
 
   for (const collider of colliders) {
@@ -24,33 +23,12 @@ export async function room1(k) {
       polygonPoints.push(k.vec2(x, y));
     }
     map.add([
-      k.pos(collider.x, collider.y + 16),
+      k.pos(collider.x, collider.y),
       k.area({ shape: new k.Polygon(polygonPoints) }),
       k.body({ isStatic: true }),
+      k.offscreen(),
     ]);
   }
-
-  k.onDraw(() => {
-    for (const layer of roomLayers) {
-      if (layer.type === "objectgroup") continue;
-
-      if (
-        layer.type === "tilelayer" &&
-        (layer.name === "platforms" || layer.name === "props")
-      ) {
-        drawLayer(k, layer, map.pos, "tileset", 16);
-        continue;
-      }
-
-      if (
-        layer.type === "tilelayer" &&
-        (layer.name === "background" || layer.name === "background-2")
-      ) {
-        drawLayer(k, layer, map.pos, "background", 16, 693);
-      }
-      continue;
-    }
-  });
 
   const player = k.add(makePlayer(k));
 

@@ -13,7 +13,8 @@ k.loadSprite("player", "../assets/sprites/u.png", {
   anims: {
     idle: { from: 0, to: 7, loop: true },
     run: { from: 8, to: 13, loop: true },
-    jump: { from: 49, to: 52 },
+    jump: { from: 51, to: 51, loop: true },
+    fall: { from: 54, to: 54, loop: true },
   },
 });
 k.loadSprite("tileset", "../assets/tileset.png", {
@@ -25,3 +26,5 @@ k.loadSprite("background", "../assets/background.png", {
   sliceX: 13,
   sliceY: 25,
 });
+
+k.loadSprite("room1", "../maps/room1.png");
