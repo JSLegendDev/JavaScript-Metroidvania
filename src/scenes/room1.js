@@ -26,7 +26,6 @@ export async function room1(k) {
       k.pos(collider.x, collider.y),
       k.area({ shape: new k.Polygon(polygonPoints) }),
       k.body({ isStatic: true }),
-      k.offscreen(),
     ]);
   }
 

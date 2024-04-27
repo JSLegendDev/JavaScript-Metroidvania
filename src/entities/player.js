@@ -4,7 +4,7 @@ export function makePlayer(k) {
     k.sprite("player", { anim: "idle" }),
     k.area({ shape: new k.Rect(k.vec2(0, 16), 16, 16) }),
     k.anchor("center"),
-    k.body({ mass: 100, jumpForce: 300 }),
+    k.body({ mass: 100, jumpForce: 320 }),
     "player",
     {
       speed: 150,
