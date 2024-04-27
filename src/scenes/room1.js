@@ -24,8 +24,12 @@ export async function room1(k) {
     }
     map.add([
       k.pos(collider.x, collider.y),
-      k.area({ shape: new k.Polygon(polygonPoints) }),
+      k.area({
+        shape: new k.Polygon(polygonPoints),
+        collisionIgnore: ["collider"],
+      }),
       k.body({ isStatic: true }),
+      "collider",
     ]);
   }
 
@@ -60,7 +64,7 @@ export async function room1(k) {
   for (const camera of cameras) {
     const cameraObj = map.add([
       k.area({ shape: new k.Rect(k.vec2(0), camera.width, camera.height) }),
-      k.pos(camera.x, camera.y + 16),
+      k.pos(camera.x, camera.y),
     ]);
 
     cameraObj.onCollide("player", () => {
