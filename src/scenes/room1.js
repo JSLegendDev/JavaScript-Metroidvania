@@ -18,6 +18,24 @@ export async function room1(k) {
   const colliders = roomLayers[4].objects;
 
   for (const collider of colliders) {
+    if (collider.polygon) {
+      const coordinates = [];
+      for (const point of collider.polygon) {
+        coordinates.push(k.vec2(point.x, point.y));
+      }
+
+      map.add([
+        k.pos(collider.x, collider.y),
+        k.area({
+          shape: new k.Polygon(coordinates),
+          collisionIgnore: ["collider"],
+        }),
+        k.body({ isStatic: true }),
+        "collider",
+        collider.type,
+      ]);
+      continue;
+    }
     map.add([
       k.pos(collider.x, collider.y),
       k.area({
@@ -61,7 +79,10 @@ export async function room1(k) {
   const cameras = roomLayers[6].objects;
   for (const camera of cameras) {
     const cameraObj = map.add([
-      k.area({ shape: new k.Rect(k.vec2(0), camera.width, camera.height) }),
+      k.area({
+        shape: new k.Rect(k.vec2(0), camera.width, camera.height),
+        collisionIgnore: ["collider"],
+      }),
       k.pos(camera.x, camera.y),
     ]);
 
