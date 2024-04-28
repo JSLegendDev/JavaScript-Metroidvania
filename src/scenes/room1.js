@@ -18,18 +18,15 @@ export async function room1(k) {
   const colliders = roomLayers[4].objects;
 
   for (const collider of colliders) {
-    const polygonPoints = [];
-    for (const { x, y } of collider.polygon) {
-      polygonPoints.push(k.vec2(x, y));
-    }
     map.add([
       k.pos(collider.x, collider.y),
       k.area({
-        shape: new k.Polygon(polygonPoints),
+        shape: new k.Rect(k.vec2(0), collider.width, collider.height),
         collisionIgnore: ["collider"],
       }),
       k.body({ isStatic: true }),
       "collider",
+      collider.type,
     ]);
   }
 
@@ -56,6 +53,7 @@ export async function room1(k) {
     if (position.name === "player") {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
+      player.enablePassthrough();
       continue;
     }
   }

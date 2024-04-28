@@ -12,6 +12,13 @@ export function makePlayer(k) {
         this.pos.x = x;
         this.pos.y = y;
       },
+      enablePassthrough() {
+        this.onBeforePhysicsResolve((collision) => {
+          if (collision.target.is("passthrough") && this.isJumping()) {
+            collision.preventResolution();
+          }
+        });
+      },
       setControls() {
         k.onKeyPress((key) => {
           if (key === "space" && this.isGrounded()) {
