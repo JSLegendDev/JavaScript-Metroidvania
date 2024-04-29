@@ -281,9 +281,42 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":8,
+         "name":"exits",
+         "objects":[
+                {
+                 "height":64,
+                 "id":15,
+                 "name":"exit-1",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1.27272727272725,
+                 "x":430.727272727273,
+                 "y":16
+                }, 
+                {
+                 "height":79.4545454545455,
+                 "id":16,
+                 "name":"exit-2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1.27273,
+                 "x":430.636362272727,
+                 "y":112.272727272727
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":15,
+ "nextlayerid":9,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

@@ -13,7 +13,7 @@ async function main() {
     room2(k, room2Data, previousSceneData)
   );
 
-  k.go("room1");
+  k.go("room1", { exitName: null });
 }
 
 main();

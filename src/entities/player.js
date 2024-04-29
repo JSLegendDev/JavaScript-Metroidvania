@@ -2,9 +2,10 @@ export function makePlayer(k) {
   return k.make([
     k.pos(),
     k.sprite("player", { anim: "idle" }),
-    k.area({ shape: new k.Rect(k.vec2(0, 16), 12, 16) }),
+    k.area({ shape: new k.Rect(k.vec2(0, 18), 12, 12) }),
     k.anchor("center"),
     k.body({ mass: 100, jumpForce: 320 }),
+    k.doubleJump(2),
     "player",
     {
       speed: 150,
@@ -21,18 +22,23 @@ export function makePlayer(k) {
       },
       setControls() {
         k.onKeyPress((key) => {
-          if (key === "space" && this.isGrounded()) {
+          if (key === "space") {
             if (this.curAnim() !== "jump") this.play("jump");
-            this.jump();
+            this.doubleJump();
           }
+        });
+
+        this.onFall(() => {
+          this.play("fall");
+        });
+
+        this.onHeadbutt(() => {
+          this.play("fall");
         });
 
         k.onKeyDown((key) => {
           if (key === "left") {
-            if (
-              this.curAnim() !== "run" &&
-              (!this.isJumping() || !this.isFalling())
-            ) {
+            if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
             this.flipX = true;
@@ -41,10 +47,7 @@ export function makePlayer(k) {
           }
 
           if (key === "right") {
-            if (
-              this.curAnim() !== "run" &&
-              (!this.isJumping() || !this.isFalling())
-            ) {
+            if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
             this.flipX = false;
@@ -62,14 +65,8 @@ export function makePlayer(k) {
             this.play("idle");
         });
 
-        this.on("ground", () => {
+        this.onGround(() => {
           this.play("idle");
-        });
-
-        k.onUpdate(() => {
-          if (this.isFalling() && this.curAnim() !== "fall") {
-            this.play("fall");
-          }
         });
       },
     },

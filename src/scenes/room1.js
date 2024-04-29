@@ -3,6 +3,7 @@ import {
   setMapColliders,
   setBackgroundColor,
   setCameraZones,
+  setExitZones,
 } from "./roomUtils.js";
 
 export async function room1(k, roomData, previousSceneData) {
@@ -39,7 +40,27 @@ export async function room1(k, roomData, previousSceneData) {
 
   const positions = roomLayers[5].objects;
   for (const position of positions) {
-    if (position.name === "player") {
+    if (position.name === "player" && !previousSceneData.exitName) {
+      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setControls();
+      player.enablePassthrough();
+      continue;
+    }
+
+    if (
+      position.name === "entrance-1" &&
+      previousSceneData.exitName === "exit-1"
+    ) {
+      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setControls();
+      player.enablePassthrough();
+      continue;
+    }
+
+    if (
+      position.name === "entrance-2" &&
+      previousSceneData.exitName === "exit-2"
+    ) {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
       player.enablePassthrough();
@@ -52,19 +73,5 @@ export async function room1(k, roomData, previousSceneData) {
   setCameraZones(k, map, cameras);
 
   const exits = roomLayers[7].objects;
-  for (const exit of exits) {
-    const exitZone = map.add([
-      k.pos(exit.x, exit.y),
-      k.area({
-        shape: new k.Rect(k.vec2(0), exit.width, exit.height),
-        collisionIgnore: ["collider"],
-      }),
-      k.body({ isStatic: true }),
-      exit.name,
-    ]);
-
-    exitZone.onCollide("player", () => {
-      k.go("room2", { exitName: exit.name });
-    });
-  }
+  setExitZones(k, map, exits, "room2");
 }

@@ -62,3 +62,21 @@ export function setCameraZones(k, map, cameras) {
     });
   }
 }
+
+export function setExitZones(k, map, exits, destinationName) {
+  for (const exit of exits) {
+    const exitZone = map.add([
+      k.pos(exit.x, exit.y),
+      k.area({
+        shape: new k.Rect(k.vec2(0), exit.width, exit.height),
+        collisionIgnore: ["collider"],
+      }),
+      k.body({ isStatic: true }),
+      exit.name,
+    ]);
+
+    exitZone.onCollide("player", () => {
+      k.go(destinationName, { exitName: exit.name });
+    });
+  }
+}
