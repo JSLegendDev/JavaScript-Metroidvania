@@ -1,52 +1,23 @@
 import { makePlayer } from "../entities/player.js";
+import {
+  setMapColliders,
+  setBackgroundColor,
+  setCameraZones,
+} from "./roomUtils.js";
 
-export async function room1(k) {
-  k.add([
-    k.rect(k.width(), k.height()),
-    k.color(k.Color.fromHex("#a2aed5")),
-    k.fixed(),
-  ]);
+export async function room1(k, roomData) {
+  setBackgroundColor(k, "#a2aed5");
 
   k.camScale(4);
   k.camPos(170, 270);
   k.setGravity(1000);
 
-  const roomData = await (await fetch("../maps/room1.json")).json();
   const roomLayers = roomData.layers;
 
   const map = k.add([k.pos(0, k.center().y - 200), k.sprite("room1")]);
   const colliders = roomLayers[4].objects;
 
-  for (const collider of colliders) {
-    if (collider.polygon) {
-      const coordinates = [];
-      for (const point of collider.polygon) {
-        coordinates.push(k.vec2(point.x, point.y));
-      }
-
-      map.add([
-        k.pos(collider.x, collider.y),
-        k.area({
-          shape: new k.Polygon(coordinates),
-          collisionIgnore: ["collider"],
-        }),
-        k.body({ isStatic: true }),
-        "collider",
-        collider.type,
-      ]);
-      continue;
-    }
-    map.add([
-      k.pos(collider.x, collider.y),
-      k.area({
-        shape: new k.Rect(k.vec2(0), collider.width, collider.height),
-        collisionIgnore: ["collider"],
-      }),
-      k.body({ isStatic: true }),
-      "collider",
-      collider.type,
-    ]);
-  }
+  setMapColliders(k, map, colliders);
 
   const player = k.add(makePlayer(k));
 
@@ -77,27 +48,23 @@ export async function room1(k) {
   }
 
   const cameras = roomLayers[6].objects;
-  for (const camera of cameras) {
-    const cameraObj = map.add([
+
+  setCameraZones(k, map, cameras);
+
+  const exits = roomLayers[7].objects;
+  for (const exit of exits) {
+    const exitZone = map.add([
+      k.pos(exit.x, exit.y),
       k.area({
-        shape: new k.Rect(k.vec2(0), camera.width, camera.height),
+        shape: new k.Rect(k.vec2(0), exit.width, exit.height),
         collisionIgnore: ["collider"],
       }),
-      k.pos(camera.x, camera.y),
+      k.body({ isStatic: true }),
+      exit.name,
     ]);
 
-    cameraObj.onCollide("player", () => {
-      if (k.camPos().x !== camera.properties[0].value) {
-        k.tween(
-          k.camPos().y,
-          camera.properties[0].value,
-          0.8,
-          (val) => k.camPos(k.camPos().x, val),
-          k.easings.linear
-        );
-
-        //k.camPos(k.camPos().x, camera.properties[0].value);
-      }
+    exitZone.onCollide("player", () => {
+      k.go("room2", exit.name);
     });
   }
 }

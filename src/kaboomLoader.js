@@ -28,3 +28,4 @@ k.loadSprite("background", "../assets/background.png", {
 });
 
 k.loadSprite("room1", "../maps/room1.png");
+k.loadSprite("room2", "../maps/room2.png");

@@ -2,7 +2,7 @@ export function makePlayer(k) {
   return k.make([
     k.pos(),
     k.sprite("player", { anim: "idle" }),
-    k.area({ shape: new k.Rect(k.vec2(0, 16), 16, 16) }),
+    k.area({ shape: new k.Rect(k.vec2(0, 16), 12, 16) }),
     k.anchor("center"),
     k.body({ mass: 100, jumpForce: 320 }),
     "player",
