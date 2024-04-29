@@ -17,6 +17,17 @@ k.loadSprite("player", "../assets/sprites/u.png", {
     fall: { from: 54, to: 54, loop: true },
   },
 });
+
+k.loadSpriteAtlas("../assets/ui.png", {
+  healthBar: {
+    x: 16,
+    y: 16,
+    width: 60,
+    height: 50,
+    sliceY: 3,
+  },
+});
+
 k.loadSprite("tileset", "../assets/tileset.png", {
   sliceX: 33,
   sliceY: 21,

@@ -1,4 +1,6 @@
 import { makePlayer } from "../entities/player.js";
+import { state } from "../state/GlobalStateManager.js";
+import { makeHealthBar } from "../ui/healthBar.js";
 import {
   setMapColliders,
   setBackgroundColor,
@@ -54,6 +56,7 @@ export async function room1(k, roomData, previousSceneData) {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
       player.enablePassthrough();
+      k.camPos(player.pos);
       continue;
     }
 
@@ -64,6 +67,7 @@ export async function room1(k, roomData, previousSceneData) {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
       player.enablePassthrough();
+      k.camPos(player.pos);
       continue;
     }
   }
@@ -74,4 +78,6 @@ export async function room1(k, roomData, previousSceneData) {
 
   const exits = roomLayers[7].objects;
   setExitZones(k, map, exits, "room2");
+
+  makeHealthBar(k);
 }

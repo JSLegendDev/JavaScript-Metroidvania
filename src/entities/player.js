@@ -1,3 +1,5 @@
+import { state } from "../state/GlobalStateManager.js";
+
 export function makePlayer(k) {
   return k.make([
     k.pos(),
@@ -5,7 +7,7 @@ export function makePlayer(k) {
     k.area({ shape: new k.Rect(k.vec2(0, 18), 12, 12) }),
     k.anchor("center"),
     k.body({ mass: 100, jumpForce: 320 }),
-    k.doubleJump(2),
+    k.doubleJump(1),
     "player",
     {
       speed: 150,
@@ -30,6 +32,15 @@ export function makePlayer(k) {
 
         this.onFall(() => {
           this.play("fall");
+        });
+
+        // when player falls off a platform
+        this.onFallOff(() => {
+          this.play("fall");
+        });
+
+        this.onGround(() => {
+          this.play("idle");
         });
 
         this.onHeadbutt(() => {
@@ -64,10 +75,10 @@ export function makePlayer(k) {
           )
             this.play("idle");
         });
+      },
 
-        this.onGround(() => {
-          this.play("idle");
-        });
+      enableDoubleJump() {
+        this.numJumps = 2;
       },
     },
   ]);
