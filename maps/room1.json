@@ -949,7 +949,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":370
+                         "value":210
                         }],
                  "rotation":0,
                  "type":"",
@@ -966,7 +966,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":270
+                         "value":100
                         }],
                  "rotation":0,
                  "type":"",
@@ -983,7 +983,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":500
+                         "value":350
                         }],
                  "rotation":0,
                  "type":"",
@@ -1000,7 +1000,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":300
+                         "value":140
                         }],
                  "rotation":0,
                  "type":"",
@@ -1017,7 +1017,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":270
+                         "value":100
                         }],
                  "rotation":0,
                  "type":"",
@@ -1034,7 +1034,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":500
+                         "value":330
                         }],
                  "rotation":0,
                  "type":"",
@@ -1051,7 +1051,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":400
+                         "value":220
                         }],
                  "rotation":0,
                  "type":"",
@@ -1068,7 +1068,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":270
+                         "value":100
                         }],
                  "rotation":0,
                  "type":"",
@@ -1085,7 +1085,7 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":680
+                         "value":520
                         }],
                  "rotation":0,
                  "type":"",
@@ -1102,14 +1102,14 @@
                         {
                          "name":"camPosY",
                          "type":"int",
-                         "value":720
+                         "value":580
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":44.063,
-                 "x":466.7185,
-                 "y":542.5
+                 "width":174.7815,
+                 "x":256,
+                 "y":576
                 }, 
                 {
                  "height":10.5454536363636,
@@ -1127,6 +1127,40 @@
                  "width":26.3811818181819,
                  "x":738.900318181818,
                  "y":402.295455
+                }, 
+                {
+                 "height":96,
+                 "id":155,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"camPosY",
+                         "type":"int",
+                         "value":520
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":464,
+                 "y":464
+                }, 
+                {
+                 "height":110.875,
+                 "id":156,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"camPosY",
+                         "type":"int",
+                         "value":100
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":432,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1168,7 +1202,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":154,
+ "nextobjectid":157,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

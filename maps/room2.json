@@ -240,7 +240,31 @@
          "draworder":"topdown",
          "id":6,
          "name":"positions",
-         "objects":[],
+         "objects":[
+                {
+                 "height":0,
+                 "id":13,
+                 "name":"entrance-1",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":416,
+                 "y":64
+                }, 
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"entrance-2",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":416,
+                 "y":176
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -259,7 +283,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":13,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
