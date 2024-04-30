@@ -7,9 +7,10 @@ export function makePlayer(k) {
     k.area({ shape: new k.Rect(k.vec2(0, 18), 12, 12) }),
     k.anchor("center"),
     k.body({ mass: 100, jumpForce: 320 }),
-    k.doubleJump(1),
+    k.doubleJump(2),
     "player",
     {
+      direction: "right",
       speed: 150,
       setPosition(x, y) {
         this.pos.x = x;
@@ -52,6 +53,7 @@ export function makePlayer(k) {
             if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
+            this.direction = "left";
             this.flipX = true;
             this.move(-this.speed, 0);
             return;
@@ -61,6 +63,7 @@ export function makePlayer(k) {
             if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
+            this.direction = "right";
             this.flipX = false;
             this.move(this.speed, 0);
             return;

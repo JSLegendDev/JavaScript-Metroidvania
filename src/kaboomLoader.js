@@ -18,6 +18,16 @@ k.loadSprite("player", "../assets/sprites/u.png", {
   },
 });
 
+k.loadSprite("drone", "../assets/sprites/dr0ne.png", {
+  sliceX: 6,
+  sliceY: 3,
+  anims: {
+    flying: { from: 0, to: 3, loop: true },
+    attack: { from: 6, to: 11, loop: true },
+    explode: { from: 12, to: 17 },
+  },
+});
+
 k.loadSpriteAtlas("../assets/ui.png", {
   healthBar: {
     x: 16,

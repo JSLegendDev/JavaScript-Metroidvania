@@ -1,3 +1,4 @@
+import { makeDrone } from "../entities/enemyDrone.js";
 import { makePlayer } from "../entities/player.js";
 import { state } from "../state/GlobalStateManager.js";
 import { makeHealthBar } from "../ui/healthBar.js";
@@ -22,7 +23,7 @@ export async function room1(k, roomData, previousSceneData) {
 
   setMapColliders(k, map, colliders);
 
-  const player = k.add(makePlayer(k));
+  const player = map.add(makePlayer(k));
 
   k.onUpdate(() => {
     if (map.pos.x + 160 > player.pos.x) {
@@ -43,7 +44,7 @@ export async function room1(k, roomData, previousSceneData) {
   const positions = roomLayers[5].objects;
   for (const position of positions) {
     if (position.name === "player" && !previousSceneData.exitName) {
-      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
       continue;
@@ -53,7 +54,7 @@ export async function room1(k, roomData, previousSceneData) {
       position.name === "entrance-1" &&
       previousSceneData.exitName === "exit-1"
     ) {
-      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
       k.camPos(player.pos);
@@ -64,11 +65,16 @@ export async function room1(k, roomData, previousSceneData) {
       position.name === "entrance-2" &&
       previousSceneData.exitName === "exit-2"
     ) {
-      player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
+      player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
       k.camPos(player.pos);
       continue;
+    }
+
+    if (position.type === "drone") {
+      const drone = map.add(makeDrone(k, k.vec2(position.x, position.y)));
+      drone.setBehavior();
     }
   }
 
