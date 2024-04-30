@@ -15,12 +15,14 @@ export function makeDrone(k, initialPos) {
     "drone",
     {
       speed: 100,
+      pursuitSpeed: 150,
       range: 100,
       setBehavior() {
         const player = k.get("player", { recursive: true })[0];
+
         this.onStateEnter("patrol-right", async () => {
           await k.wait(3);
-          this.enterState("patrol-left");
+          if (this.state === "patrol-right") this.enterState("patrol-left");
         });
 
         this.onStateUpdate("patrol-right", () => {
@@ -34,7 +36,7 @@ export function makeDrone(k, initialPos) {
 
         this.onStateEnter("patrol-left", async () => {
           await k.wait(3);
-          this.enterState("patrol-right");
+          if (this.state === "patrol-left") this.enterState("patrol-right");
         });
 
         this.onStateUpdate("patrol-left", () => {
@@ -47,9 +49,13 @@ export function makeDrone(k, initialPos) {
         });
 
         this.onStateUpdate("retreat", () => {
-          if (this.pos !== initialPos) {
+          if (!this.pos.eq(initialPos)) {
+            this.flipX = 0 <= this.pos.angleBetween(initialPos);
             this.moveTo(initialPos, this.speed);
+            return;
           }
+
+          this.enterState("patrol-right");
         });
 
         this.onStateEnter("alert", async () => {
@@ -68,7 +74,7 @@ export function makeDrone(k, initialPos) {
           }
 
           this.flipX = player.direction === "left";
-          this.moveTo(player.pos, this.speed);
+          this.moveTo(player.pos, this.pursuitSpeed);
         });
       },
     },
