@@ -346,7 +346,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":64,
+                 "width":48,
                  "x":64,
                  "y":208
                 }, 
@@ -390,12 +390,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":176,
-                 "x":272,
+                 "width":160,
+                 "x":288,
                  "y":112
                 }, 
                 {
-                 "height":48,
+                 "height":64,
                  "id":81,
                  "name":"",
                  "rotation":0,
@@ -403,7 +403,7 @@
                  "visible":true,
                  "width":16,
                  "x":272,
-                 "y":128
+                 "y":112
                 }, 
                 {
                  "height":32,
@@ -692,7 +692,7 @@
                  "y":96
                 }, 
                 {
-                 "height":80,
+                 "height":96,
                  "id":115,
                  "name":"",
                  "rotation":0,
@@ -700,7 +700,7 @@
                  "visible":true,
                  "width":16,
                  "x":112,
-                 "y":224
+                 "y":208
                 }, 
                 {
                  "height":16,
@@ -965,6 +965,42 @@
                  "width":0,
                  "x":272,
                  "y":336
+                }, 
+                {
+                 "height":0,
+                 "id":166,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"drone",
+                 "visible":true,
+                 "width":0,
+                 "x":144,
+                 "y":160
+                }, 
+                {
+                 "height":0,
+                 "id":167,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"drone",
+                 "visible":true,
+                 "width":0,
+                 "x":752,
+                 "y":352
+                }, 
+                {
+                 "height":0,
+                 "id":168,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"drone",
+                 "visible":true,
+                 "width":0,
+                 "x":304,
+                 "y":528
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1025,8 +1061,8 @@
                  "type":"",
                  "visible":true,
                  "width":44.063,
-                 "x":129.5935,
-                 "y":288.25
+                 "x":129.8435,
+                 "y":300.5
                 }, 
                 {
                  "height":6.90909090909093,
@@ -1231,6 +1267,23 @@
                  "width":16,
                  "x":240,
                  "y":464
+                }, 
+                {
+                 "height":13.1307,
+                 "id":169,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"camPosY",
+                         "type":"int",
+                         "value":210
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":124.295454545455,
+                 "x":129.977272727273,
+                 "y":269.909090909091
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1272,7 +1325,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":166,
+ "nextobjectid":170,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

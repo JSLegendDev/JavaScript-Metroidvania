@@ -10,7 +10,6 @@ export function makePlayer(k) {
     k.doubleJump(2),
     "player",
     {
-      direction: "right",
       speed: 150,
       setPosition(x, y) {
         this.pos.x = x;
@@ -53,7 +52,6 @@ export function makePlayer(k) {
             if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
-            this.direction = "left";
             this.flipX = true;
             this.move(-this.speed, 0);
             return;
@@ -63,7 +61,6 @@ export function makePlayer(k) {
             if (this.curAnim() !== "run" && this.isGrounded()) {
               this.play("run");
             }
-            this.direction = "right";
             this.flipX = false;
             this.move(this.speed, 0);
             return;
@@ -77,6 +74,12 @@ export function makePlayer(k) {
             this.curAnim() !== "fall"
           )
             this.play("idle");
+        });
+      },
+
+      setHealthEvents() {
+        this.on("hit", () => {
+          // TODO
         });
       },
 

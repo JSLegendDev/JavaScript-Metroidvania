@@ -4,13 +4,15 @@ export function makeDrone(k, initialPos) {
     k.sprite("drone", { anim: "flying" }),
     k.area({ shape: new k.Rect(k.vec2(0), 12, 12) }),
     k.anchor("center"),
-    k.body({ isStatic: true }),
+    k.body({ gravityScale: 0 }),
+    k.offscreen({ distance: 650 }),
     k.state("patrol-right", [
       "patrol-right",
       "patrol-left",
       "alert",
       "attack",
       "retreat",
+      "explode",
     ]),
     "drone",
     {
@@ -48,15 +50,16 @@ export function makeDrone(k, initialPos) {
           this.move(-this.speed, 0);
         });
 
-        this.onStateUpdate("retreat", () => {
-          if (!this.pos.eq(initialPos)) {
-            this.flipX = 0 <= this.pos.angleBetween(initialPos);
-            this.moveTo(initialPos, this.speed);
-            return;
-          }
+        // this.onStateUpdate("retreat", () => {
+        //   if (!this.pos.eq(initialPos)) {
+        //     // this.flipX = 0 <= this.pos.angleBetween(initialPos);
+        //     // this.moveTo(initialPos, this.speed);
 
-          this.enterState("patrol-right");
-        });
+        //     return;
+        //   }
+
+        //   this.enterState("patrol-right");
+        // });
 
         this.onStateEnter("alert", async () => {
           await k.wait(2);
@@ -65,16 +68,38 @@ export function makeDrone(k, initialPos) {
             return;
           }
 
-          this.enterState("retreat");
+          this.enterState("patrol-right");
         });
 
         this.onStateUpdate("attack", () => {
           if (this.pos.dist(player.pos) > this.range) {
             this.enterState("alert");
+            return;
           }
 
-          this.flipX = player.direction === "left";
-          this.moveTo(player.pos, this.pursuitSpeed);
+          this.flipX = player.pos.x <= this.pos.x;
+          this.moveTo(
+            k.vec2(player.pos.x, player.pos.y + 12),
+            this.pursuitSpeed
+          );
+        });
+
+        this.on("exploded", () => {
+          k.destroy(this);
+        });
+
+        this.onCollide("player", () => {
+          this.enterState("explode");
+          this.play("explode", {
+            onEnd: () => {
+              player.trigger("hit");
+              this.trigger("exploded");
+            },
+          });
+        });
+
+        this.onExitScreen(() => {
+          if (!this.pos.eq(initialPos)) this.pos = initialPos;
         });
       },
     },
