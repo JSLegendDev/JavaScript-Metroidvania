@@ -1,4 +1,5 @@
 import { makePlayer } from "../entities/player.js";
+import { healthBar } from "../ui/healthBar.js";
 import {
   setBackgroundColor,
   setMapColliders,
@@ -67,4 +68,8 @@ export function room2(k, roomData, previousSceneData) {
 
   const exits = roomLayers[7].objects;
   setExitZones(k, map, exits, "room1");
+
+  healthBar.setEvents();
+  healthBar.trigger("update");
+  k.add(healthBar);
 }

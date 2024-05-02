@@ -1,6 +1,5 @@
 import { makeDrone } from "../entities/enemyDrone.js";
 import { makePlayer } from "../entities/player.js";
-import { state } from "../state/GlobalStateManager.js";
 import { healthBar } from "../ui/healthBar.js";
 
 import {
