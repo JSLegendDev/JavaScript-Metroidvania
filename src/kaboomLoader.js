@@ -15,6 +15,7 @@ k.loadSprite("player", "../assets/sprites/u.png", {
     run: { from: 8, to: 13, loop: true },
     jump: { from: 51, to: 51, loop: true },
     fall: { from: 54, to: 54, loop: true },
+    explode: { from: 64, to: 69 },
   },
 });
 
@@ -33,7 +34,7 @@ k.loadSpriteAtlas("../assets/ui.png", {
     x: 16,
     y: 16,
     width: 60,
-    height: 50,
+    height: 48,
     sliceY: 3,
   },
 });

@@ -1,7 +1,8 @@
 import { makeDrone } from "../entities/enemyDrone.js";
 import { makePlayer } from "../entities/player.js";
 import { state } from "../state/GlobalStateManager.js";
-import { makeHealthBar } from "../ui/healthBar.js";
+import { healthBar } from "../ui/healthBar.js";
+
 import {
   setMapColliders,
   setBackgroundColor,
@@ -9,7 +10,11 @@ import {
   setExitZones,
 } from "./roomUtils.js";
 
-export async function room1(k, roomData, previousSceneData) {
+export async function room1(
+  k,
+  roomData,
+  previousSceneData = { exitName: null }
+) {
   setBackgroundColor(k, "#a2aed5");
 
   k.camScale(4);
@@ -47,6 +52,7 @@ export async function room1(k, roomData, previousSceneData) {
       player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
+      player.setEvents();
       continue;
     }
 
@@ -75,6 +81,7 @@ export async function room1(k, roomData, previousSceneData) {
     if (position.type === "drone") {
       const drone = map.add(makeDrone(k, k.vec2(position.x, position.y)));
       drone.setBehavior();
+      drone.setEvents();
     }
   }
 
@@ -85,5 +92,7 @@ export async function room1(k, roomData, previousSceneData) {
   const exits = roomLayers[7].objects;
   setExitZones(k, map, exits, "room2");
 
-  makeHealthBar(k);
+  healthBar.setEvents();
+  healthBar.trigger("update");
+  k.add(healthBar);
 }
