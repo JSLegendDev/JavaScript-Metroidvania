@@ -29,6 +29,19 @@ k.loadSprite("drone", "../assets/sprites/dr0ne.png", {
   },
 });
 
+k.loadSprite("burner", "../assets/sprites/burn3r.png", {
+  sliceX: 5,
+  sliceY: 6,
+  anims: {
+    idle: { from: 0, to: 3, loop: true },
+    run: { from: 6, to: 8, loop: true },
+    "open-fire": { from: 10, to: 14 },
+    fire: { from: 15, to: 18, loop: true },
+    "shut-fire": { from: 20, to: 23 },
+    explode: { from: 25, to: 29 },
+  },
+});
+
 k.loadSpriteAtlas("../assets/ui.png", {
   healthBar: {
     x: 16,
