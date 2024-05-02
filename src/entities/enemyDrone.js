@@ -5,7 +5,7 @@ export function makeDrone(k, initialPos) {
     k.area({ shape: new k.Rect(k.vec2(0), 12, 12) }),
     k.anchor("center"),
     k.body({ gravityScale: 0 }),
-    k.offscreen({ distance: 650 }),
+    k.offscreen({ distance: 400 }),
     k.state("patrol-right", [
       "patrol-right",
       "patrol-left",
@@ -72,6 +72,10 @@ export function makeDrone(k, initialPos) {
             this.pursuitSpeed
           );
         });
+
+        this.onStateEnter("explode", () => {
+          this.unuse("body");
+        });
       },
 
       setEvents() {
@@ -91,8 +95,12 @@ export function makeDrone(k, initialPos) {
           });
         });
 
+        this.on("exploded", () => {
+          k.destroy(this);
+        });
+
         this.onExitScreen(() => {
-          if (!this.pos.eq(initialPos)) this.pos = initialPos;
+          if (this.pos.dist(initialPos) > 400) this.pos = initialPos;
         });
       },
     },

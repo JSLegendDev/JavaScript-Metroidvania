@@ -63,6 +63,7 @@ export async function room1(
       player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
+      player.setEvents();
       k.camPos(player.pos);
       continue;
     }
@@ -74,6 +75,7 @@ export async function room1(
       player.setPosition(position.x, position.y);
       player.setControls();
       player.enablePassthrough();
+      player.setEvents();
       k.camPos(player.pos);
       continue;
     }
