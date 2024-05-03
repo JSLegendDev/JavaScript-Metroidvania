@@ -5,5 +5,10 @@ export function makeBoss(k, initialPos) {
     k.area({ shape: new k.Rect(k.vec2(-20, 10), 12, 12) }),
     k.body(),
     k.anchor("center"),
+    k.state("idle", ["idle", "move-left", "move-right"]),
+    {
+      setBehavior() {},
+      setEvents() {},
+    },
   ]);
 }

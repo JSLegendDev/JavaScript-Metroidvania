@@ -75,7 +75,21 @@ export function setExitZones(k, map, exits, destinationName) {
       exit.name,
     ]);
 
-    exitZone.onCollide("player", () => {
+    exitZone.onCollide("player", async () => {
+      const background = k.add([
+        k.pos(-k.width(), 0),
+        k.rect(k.width(), k.height()),
+        k.color("#20214a"),
+      ]);
+
+      await k.tween(
+        background.pos.x,
+        0,
+        0.3,
+        (val) => (background.pos.x = val),
+        k.easings.linear
+      );
+
       k.go(destinationName, { exitName: exit.name });
     });
   }
