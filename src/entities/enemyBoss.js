@@ -1,3 +1,5 @@
+import { state } from "../state/GlobalStateManager.js";
+
 export function makeBoss(k, initialPos) {
   return k.make([
     k.pos(initialPos),
@@ -20,11 +22,11 @@ export function makeBoss(k, initialPos) {
       setBehavior() {
         const player = k.get("player", { recursive: true })[0];
 
-        this.onStateEnter("idle", () => {
-          // k.wait(2, () => {
-          //   this.enterState("follow");
-          // });
-        });
+        // this.onStateUpdate("idle", () => {
+        //   if (state.current().playerInBossFight) {
+        //     this.enterState("follow");
+        //   }
+        // });
 
         this.onStateUpdate("follow", () => {
           if (player.pos.y + 100 < this.pos.y) {

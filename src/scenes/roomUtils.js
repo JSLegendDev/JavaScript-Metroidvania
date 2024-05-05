@@ -41,14 +41,28 @@ export function setMapColliders(k, map, colliders) {
         "boss-barrier",
       ]);
 
-      bossBarrier.onCollideEnd("player", () => {
-        if (state.current().isInBossFight) return;
+      bossBarrier.onCollide("player", async (player) => {
+        if (state.current().playerInBossFight) return;
+        player.disableControls();
+        player.play("idle");
+        await k.tween(
+          player.pos.x,
+          player.pos.x + 25,
+          0.2,
+          (val) => (player.pos.x = val),
+          k.easings.linear
+        );
+        player.setControls();
+      });
 
-        state.set("isInBossFight", true);
+      bossBarrier.onCollideEnd("player", () => {
+        if (state.current().playerInBossFight) return;
+
+        state.set("playerInBossFight", true);
 
         k.tween(
           bossBarrier.opacity,
-          0.6,
+          0.3,
           1,
           (val) => (bossBarrier.opacity = val),
           k.easings.linear
@@ -82,7 +96,7 @@ export function setMapColliders(k, map, colliders) {
 
 export function setCameraControls(k, player, map, roomData) {
   k.onUpdate(() => {
-    if (state.current().isInBossFight) return;
+    if (state.current().playerInBossFight) return;
 
     if (map.pos.x + 160 > player.pos.x) {
       k.camPos(map.pos.x + 160, k.camPos().y);
