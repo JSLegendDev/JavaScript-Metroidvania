@@ -1,11 +1,13 @@
 import { makeBoss } from "../entities/enemyBoss.js";
 import { makeDrone } from "../entities/enemyDrone.js";
 import { makePlayer } from "../entities/player.js";
+import { state } from "../state/GlobalStateManager.js";
 import { healthBar } from "../ui/healthBar.js";
 
 import {
   setMapColliders,
   setBackgroundColor,
+  setCameraControls,
   setCameraZones,
   setExitZones,
 } from "./roomUtils.js";
@@ -30,21 +32,7 @@ export async function room1(
 
   const player = map.add(makePlayer(k));
 
-  k.onUpdate(() => {
-    if (map.pos.x + 160 > player.pos.x) {
-      k.camPos(map.pos.x + 160, k.camPos().y);
-      return;
-    }
-
-    if (player.pos.x > map.pos.x + roomData.width * roomData.tilewidth - 160) {
-      k.camPos(
-        map.pos.x + roomData.width * roomData.tilewidth - 160,
-        k.camPos().y
-      );
-      return;
-    }
-    k.camPos(player.pos.x, k.camPos().y);
-  });
+  setCameraControls(k, player, map, roomData);
 
   const positions = roomLayers[5].objects;
   for (const position of positions) {
@@ -89,6 +77,7 @@ export async function room1(
 
     if (position.name === "boss") {
       const boss = map.add(makeBoss(k, k.vec2(position.x, position.y)));
+      boss.setBehavior();
     }
   }
 

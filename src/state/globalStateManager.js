@@ -2,6 +2,7 @@ function initStateManager() {
   const state = {
     playerHp: 3,
     doubleJumpUnlock: false,
+    isInBossFight: false,
   };
 
   return {

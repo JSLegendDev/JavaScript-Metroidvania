@@ -906,6 +906,23 @@
                  "width":16,
                  "x":176,
                  "y":288
+                }, 
+                {
+                 "height":64,
+                 "id":172,
+                 "name":"boss-barrier",
+                 "properties":[
+                        {
+                         "name":"camPosX",
+                         "type":"int",
+                         "value":640
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":9.75,
+                 "x":499.125,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1337,7 +1354,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":171,
+ "nextobjectid":173,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

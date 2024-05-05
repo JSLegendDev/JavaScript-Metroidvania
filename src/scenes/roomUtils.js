@@ -1,3 +1,5 @@
+import { state } from "../state/GlobalStateManager.js";
+
 export function setBackgroundColor(k, hexColorCode) {
   k.add([
     k.rect(k.width(), k.height()),
@@ -26,6 +28,45 @@ export function setMapColliders(k, map, colliders) {
       ]);
       continue;
     }
+
+    if (collider.name === "boss-barrier") {
+      const bossBarrier = map.add([
+        k.rect(collider.width, collider.height),
+        k.color(k.Color.fromHex("#eacfba")),
+        k.pos(collider.x, collider.y),
+        k.area({
+          collisionIgnore: ["collider"],
+        }),
+        k.opacity(0),
+        "boss-barrier",
+      ]);
+
+      bossBarrier.onCollideEnd("player", () => {
+        if (state.current().isInBossFight) return;
+
+        state.set("isInBossFight", true);
+
+        k.tween(
+          bossBarrier.opacity,
+          0.6,
+          1,
+          (val) => (bossBarrier.opacity = val),
+          k.easings.linear
+        );
+
+        k.tween(
+          k.camPos().x,
+          collider.properties[0].value,
+          1,
+          (val) => k.camPos(val, k.camPos().y),
+          k.easings.linear
+        );
+        bossBarrier.use(k.body({ isStatic: true }));
+      });
+
+      continue;
+    }
+
     map.add([
       k.pos(collider.x, collider.y),
       k.area({
@@ -37,6 +78,27 @@ export function setMapColliders(k, map, colliders) {
       collider.type,
     ]);
   }
+}
+
+export function setCameraControls(k, player, map, roomData) {
+  k.onUpdate(() => {
+    if (state.current().isInBossFight) return;
+
+    if (map.pos.x + 160 > player.pos.x) {
+      k.camPos(map.pos.x + 160, k.camPos().y);
+      return;
+    }
+
+    if (player.pos.x > map.pos.x + roomData.width * roomData.tilewidth - 160) {
+      k.camPos(
+        map.pos.x + roomData.width * roomData.tilewidth - 160,
+        k.camPos().y
+      );
+      return;
+    }
+
+    k.camPos(player.pos.x, k.camPos().y);
+  });
 }
 
 export function setCameraZones(k, map, cameras) {

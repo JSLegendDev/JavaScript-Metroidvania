@@ -5,6 +5,7 @@ import {
   setMapColliders,
   setCameraZones,
   setExitZones,
+  setCameraControls,
 } from "./roomUtils.js";
 
 export function room2(k, roomData, previousSceneData) {
@@ -22,21 +23,7 @@ export function room2(k, roomData, previousSceneData) {
 
   const player = k.add(makePlayer(k));
 
-  k.onUpdate(() => {
-    if (map.pos.x + 160 > player.pos.x) {
-      k.camPos(map.pos.x + 160, k.camPos().y);
-      return;
-    }
-
-    if (player.pos.x > map.pos.x + roomData.width * roomData.tilewidth - 160) {
-      k.camPos(
-        map.pos.x + roomData.width * roomData.tilewidth - 160,
-        k.camPos().y
-      );
-      return;
-    }
-    k.camPos(player.pos.x, k.camPos().y);
-  });
+  setCameraControls(k, player, map, roomData);
 
   const positions = roomLayers[5].objects;
   for (const position of positions) {
