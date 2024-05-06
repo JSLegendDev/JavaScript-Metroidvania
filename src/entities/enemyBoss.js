@@ -44,7 +44,11 @@ export function makeBoss(k, initialPos) {
         });
 
         this.onStateEnter("fire", () => {
-          this.add([k.rect(100, 10), k.area(), "fire-hitbox"]);
+          this.add([
+            k.area({ shape: new k.Rect(k.vec2(0), 70, 10) }),
+            k.pos(player.pos.x <= this.pos.x ? -70 : 0, 5),
+            "fire-hitbox",
+          ]);
 
           k.wait(4, () => {
             this.enterState("shut-fire");
