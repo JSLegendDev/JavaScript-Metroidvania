@@ -4,7 +4,7 @@ export function makeBoss(k, initialPos) {
   return k.make([
     k.pos(initialPos),
     k.sprite("burner", { anim: "idle" }),
-    k.area({ shape: new k.Rect(k.vec2(-20, 10), 12, 12) }),
+    k.area({ shape: new k.Rect(k.vec2(0, 10), 12, 12) }),
     k.body(),
     k.anchor("center"),
     k.state("idle", [
@@ -17,16 +17,16 @@ export function makeBoss(k, initialPos) {
     ]),
     k.health(30),
     {
-      pursuitSpeed: 200,
+      pursuitSpeed: 50,
       fireRange: 30,
       setBehavior() {
         const player = k.get("player", { recursive: true })[0];
 
-        // this.onStateUpdate("idle", () => {
-        //   if (state.current().playerInBossFight) {
-        //     this.enterState("follow");
-        //   }
-        // });
+        this.onStateUpdate("idle", () => {
+          if (state.current().playerInBossFight) {
+            this.enterState("follow");
+          }
+        });
 
         this.onStateUpdate("follow", () => {
           if (player.pos.y + 100 < this.pos.y) {
@@ -39,6 +39,7 @@ export function makeBoss(k, initialPos) {
             return;
           }
 
+          if (this.curAnim() !== "run") this.play("run");
           this.flipX = player.pos.x <= this.pos.x;
           this.moveTo(
             k.vec2(player.pos.x, player.pos.y + 12),
