@@ -10,8 +10,9 @@ export function makeBoss(k, initialPos) {
     k.state("idle", ["idle", "follow", "open-fire", "fire", "shut-fire"]),
     k.health(30),
     {
-      pursuitSpeed: 50,
-      fireRange: 30,
+      pursuitSpeed: 100,
+      fireRange: 40,
+      fireDuration: 1,
       setBehavior() {
         const player = k.get("player", { recursive: true })[0];
 
@@ -50,7 +51,7 @@ export function makeBoss(k, initialPos) {
             "fire-hitbox",
           ]);
 
-          k.wait(4, () => {
+          k.wait(this.fireDuration, () => {
             this.enterState("shut-fire");
           });
         });
