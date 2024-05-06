@@ -5,16 +5,9 @@ export function makeBoss(k, initialPos) {
     k.pos(initialPos),
     k.sprite("burner", { anim: "idle" }),
     k.area({ shape: new k.Rect(k.vec2(0, 10), 12, 12) }),
-    k.body(),
+    k.body({ mass: 100, jumpForce: 320 }),
     k.anchor("center"),
-    k.state("idle", [
-      "idle",
-      "follow",
-      "jump",
-      "open-fire",
-      "fire",
-      "shut-fire",
-    ]),
+    k.state("idle", ["idle", "follow", "open-fire", "fire", "shut-fire"]),
     k.health(30),
     {
       pursuitSpeed: 50,
@@ -29,12 +22,7 @@ export function makeBoss(k, initialPos) {
         });
 
         this.onStateUpdate("follow", () => {
-          if (player.pos.y + 100 < this.pos.y) {
-            this.enterState("jump");
-            return;
-          }
-
-          if (this.pos.dist(player.pos) < this.range) {
+          if (this.pos.dist(player.pos) < this.fireRange) {
             this.enterState("open-fire");
             return;
           }
@@ -47,11 +35,6 @@ export function makeBoss(k, initialPos) {
           );
         });
 
-        this.onStateEnter("jump", () => {
-          this.jump();
-          this.enterState("follow");
-        });
-
         this.onStateEnter("open-fire", () => {
           this.play("open-fire", {
             onEnd: () => {
@@ -62,14 +45,18 @@ export function makeBoss(k, initialPos) {
 
         this.onStateEnter("fire", () => {
           this.add([k.rect(100, 10), k.area(), "fire-hitbox"]);
-          this.play("fire");
+
           k.wait(4, () => {
             this.enterState("shut-fire");
           });
         });
 
         this.onStateEnd("fire", () => {
-          k.destroy("fire-hitbox");
+          k.destroy(k.get("fire-hitbox", { recursive: true })[0]);
+        });
+
+        this.onStateUpdate("fire", () => {
+          if (this.curAnim() !== "fire") this.play("fire");
         });
 
         this.onStateEnter("shut-fire", () => {
