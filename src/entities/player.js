@@ -5,11 +5,11 @@ import { healthBar } from "../ui/healthBar.js";
 export function makePlayer(k) {
   return k.make([
     k.pos(),
-    k.sprite("player", { anim: "idle" }),
+    k.sprite("player"),
     k.area({ shape: new k.Rect(k.vec2(0, 18), 12, 12) }),
     k.anchor("center"),
     k.body({ mass: 100, jumpForce: 320 }),
-    k.doubleJump(2),
+    k.doubleJump(1),
     k.opacity(),
     "player",
     {
@@ -33,6 +33,19 @@ export function makePlayer(k) {
             if (key === "space") {
               if (this.curAnim() !== "jump") this.play("jump");
               this.doubleJump();
+            }
+
+            if (
+              key === "z" &&
+              this.curAnim() !== "attack" &&
+              this.isGrounded()
+            ) {
+              this.play("attack");
+
+              // because onEnd doesn't work
+              k.wait(0.5, () => {
+                if (this.curAnim() !== "idle") this.play("idle");
+              });
             }
           })
         );
@@ -89,7 +102,8 @@ export function makePlayer(k) {
             if (
               this.curAnim() !== "idle" &&
               this.curAnim() !== "jump" &&
-              this.curAnim() !== "fall"
+              this.curAnim() !== "fall" &&
+              this.curAnim() !== "attack"
             )
               this.play("idle");
           })
