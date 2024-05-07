@@ -81,11 +81,11 @@ export function makeDrone(k, initialPos) {
       setEvents() {
         const player = k.get("player", { recursive: true })[0];
 
-        this.onCollide("player", () => {
+        this.onCollide("player", async () => {
           if (player.isAttacking) return;
 
           this.trigger("explode");
-          player.trigger("hit");
+          player.hurt(1);
         });
 
         this.onAnimEnd((anim) => {
@@ -95,21 +95,20 @@ export function makeDrone(k, initialPos) {
         });
 
         this.on("explode", () => {
+          this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");
         });
 
         this.onCollide("sword-hitbox", () => {
-          console.log("drone got hurt!");
           this.hurt(1);
         });
 
         // event defined by default by the health component
         // when health is removed
         this.on("hurt", () => {
-          if (this.hp() === 0) {
-            this.trigger("explode");
-          }
+          if (this.hp() > 0) return;
+          this.trigger("explode");
         });
 
         this.onExitScreen(() => {

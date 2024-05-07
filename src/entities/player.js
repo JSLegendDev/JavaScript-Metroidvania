@@ -12,6 +12,7 @@ export function makePlayer(k) {
     k.body({ mass: 100, jumpForce: 320 }),
     k.doubleJump(1),
     k.opacity(),
+    k.health(state.current().playerHp),
     "player",
     {
       speed: 150,
@@ -65,31 +66,6 @@ export function makePlayer(k) {
         );
 
         this.controlHandlers.push(
-          this.onFall(() => {
-            this.play("fall");
-          })
-        );
-
-        // when player falls off a platform
-        this.controlHandlers.push(
-          this.onFallOff(() => {
-            this.play("fall");
-          })
-        );
-
-        this.controlHandlers.push(
-          this.onGround(() => {
-            this.play("idle");
-          })
-        );
-
-        this.controlHandlers.push(
-          this.onHeadbutt(() => {
-            this.play("fall");
-          })
-        );
-
-        this.controlHandlers.push(
           k.onKeyDown((key) => {
             if (key === "left") {
               if (this.curAnim() !== "run" && this.isGrounded()) {
@@ -131,16 +107,38 @@ export function makePlayer(k) {
       },
 
       setEvents() {
-        this.on("hit", () => {
+        // when player falls after jumping
+        this.onFall(() => {
+          this.play("fall");
+        });
+
+        // when player falls off a platform
+        this.onFallOff(() => {
+          this.play("fall");
+        });
+        this.onGround(() => {
+          this.play("idle");
+        });
+        this.onHeadbutt(() => {
+          this.play("fall");
+        });
+
+        this.on("hurt", () => {
           makeBlink(k, this);
-          state.set("playerHp", state.current().playerHp - 1);
-          healthBar.trigger("update");
+          if (this.hp() > 0) {
+            state.set("playerHp", this.hp());
+            healthBar.trigger("update");
+            return;
+          }
 
-          if (state.current().playerHp !== 0) return;
-
-          this.disableControls();
           state.set("playerHp", maxPlayerHp);
-          this.play("explode", { onEnd: () => k.go("room1") });
+          this.play("explode");
+        });
+
+        this.onAnimEnd((anim) => {
+          if (anim === "explode") {
+            k.go("room1");
+          }
         });
       },
 
