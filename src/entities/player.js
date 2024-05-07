@@ -42,9 +42,10 @@ export function makePlayer(k) {
             ) {
               this.play("attack");
 
-              // because onEnd doesn't work
-              k.wait(0.5, () => {
-                if (this.curAnim() !== "idle") this.play("idle");
+              this.onAnimEnd((anim) => {
+                if (anim === "attack") {
+                  this.play("idle");
+                }
               });
             }
           })

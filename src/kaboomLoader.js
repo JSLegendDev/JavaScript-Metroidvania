@@ -16,7 +16,7 @@ k.loadSprite("player", "../assets/sprites/u.png", {
     jump: { from: 51, to: 51, loop: true },
     fall: { from: 54, to: 54, loop: true },
     explode: { from: 64, to: 69 },
-    attack: { from: 24, to: 28 },
+    attack: { from: 24, to: 28, speed: 16 },
   },
 });
 

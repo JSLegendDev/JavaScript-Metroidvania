@@ -37,11 +37,7 @@ export function makeBoss(k, initialPos) {
         });
 
         this.onStateEnter("open-fire", () => {
-          this.play("open-fire", {
-            onEnd: () => {
-              this.enterState("fire");
-            },
-          });
+          this.play("open-fire");
         });
 
         this.onStateEnter("fire", () => {
@@ -65,11 +61,19 @@ export function makeBoss(k, initialPos) {
         });
 
         this.onStateEnter("shut-fire", () => {
-          this.play("shut-fire", {
-            onEnd: () => {
+          this.play("shut-fire");
+        });
+
+        this.onAnimEnd((anim) => {
+          switch (anim) {
+            case "open-fire":
+              this.enterState("fire");
+              break;
+            case "shut-fire":
               this.enterState("follow");
-            },
-          });
+              break;
+            default:
+          }
         });
       },
       setEvents() {},
