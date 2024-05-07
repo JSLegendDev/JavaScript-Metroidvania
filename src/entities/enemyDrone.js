@@ -12,6 +12,7 @@ export function makeDrone(k, initialPos) {
       "alert",
       "attack",
       "retreat",
+      "explode",
     ]),
     k.health(1),
     "drone",
@@ -95,6 +96,7 @@ export function makeDrone(k, initialPos) {
         });
 
         this.on("explode", () => {
+          this.enterState("explode");
           this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");

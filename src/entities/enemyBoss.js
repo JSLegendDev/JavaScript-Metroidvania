@@ -1,4 +1,5 @@
 import { state } from "../state/GlobalStateManager.js";
+import { makeBlink } from "./entitySharedLogic.js";
 
 export function makeBoss(k, initialPos) {
   return k.make([
@@ -7,8 +8,16 @@ export function makeBoss(k, initialPos) {
     k.area({ shape: new k.Rect(k.vec2(0, 10), 12, 12) }),
     k.body({ mass: 100, jumpForce: 320 }),
     k.anchor("center"),
-    k.state("idle", ["idle", "follow", "open-fire", "fire", "shut-fire"]),
-    k.health(30),
+    k.state("idle", [
+      "idle",
+      "follow",
+      "open-fire",
+      "fire",
+      "shut-fire",
+      "explode",
+    ]),
+    k.health(15),
+    k.opacity(1),
     {
       pursuitSpeed: 100,
       fireRange: 40,
@@ -53,7 +62,8 @@ export function makeBoss(k, initialPos) {
         });
 
         this.onStateEnd("fire", () => {
-          k.destroy(k.get("fire-hitbox", { recursive: true })[0]);
+          const fireHitbox = k.get("fire-hitbox", { recursive: true })[0];
+          if (fireHitbox) k.destroy(fireHitbox);
         });
 
         this.onStateUpdate("fire", () => {
@@ -76,7 +86,31 @@ export function makeBoss(k, initialPos) {
           }
         });
       },
-      setEvents() {},
+      setEvents() {
+        this.onCollide("sword-hitbox", () => {
+          this.hurt(1);
+        });
+
+        this.onAnimEnd((anim) => {
+          if (anim === "explode") {
+            k.destroy(this);
+          }
+        });
+
+        this.on("explode", () => {
+          this.enterState("explode");
+          this.collisionIgnore = ["player"];
+          this.unuse("body");
+          this.play("explode");
+        });
+
+        this.on("hurt", () => {
+          console.log(this.hp());
+          makeBlink(k, this);
+          if (this.hp() > 0) return;
+          this.trigger("explode");
+        });
+      },
     },
   ]);
 }

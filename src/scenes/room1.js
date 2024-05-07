@@ -78,6 +78,7 @@ export async function room1(
     if (position.name === "boss") {
       const boss = map.add(makeBoss(k, k.vec2(position.x, position.y)));
       boss.setBehavior();
+      boss.setEvents();
     }
   }
 
