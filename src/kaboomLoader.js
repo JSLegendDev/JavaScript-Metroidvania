@@ -7,6 +7,9 @@ export const k = kaboom({
   scale,
   letterbox: true,
 });
+
+k.loadFont("glyphmesss", "../assets/glyphmesss.ttf");
+
 k.loadSprite("player", "../assets/sprites/u.png", {
   sliceX: 8,
   sliceY: 9,

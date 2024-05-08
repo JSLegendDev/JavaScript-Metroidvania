@@ -1,5 +1,6 @@
 import { state, statePropsEnum } from "../state/GlobalStateManager.js";
 import { makeBlink } from "./entitySharedLogic.js";
+import { makeNotificationBox } from "../ui/notificationBox.js";
 
 export function makeBoss(k, initialPos) {
   return k.make([
@@ -106,6 +107,12 @@ export function makeBoss(k, initialPos) {
           this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");
+          k.add(
+            makeNotificationBox(
+              k,
+              "You unlocked a new ability!\nYou can now double jump."
+            )
+          );
           state.set(statePropsEnum.isBossDefeated, true);
           state.set(statePropsEnum.isDoubleJumpUnlocked, true);
           player.enableDoubleJump();
