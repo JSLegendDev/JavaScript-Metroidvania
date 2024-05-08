@@ -75,7 +75,7 @@ export async function room1(
       continue;
     }
 
-    if (position.name === "boss") {
+    if (position.name === "boss" && !state.current().isBossDefeated) {
       const boss = map.add(makeBoss(k, k.vec2(position.x, position.y)));
       boss.setBehavior();
       boss.setEvents();

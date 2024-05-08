@@ -34,6 +34,7 @@ export function room2(k, roomData, previousSceneData) {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
       player.enablePassthrough();
+      player.setEvents();
       continue;
     }
 
@@ -44,6 +45,7 @@ export function room2(k, roomData, previousSceneData) {
       player.setPosition(position.x + map.pos.x, position.y + map.pos.y);
       player.setControls();
       player.enablePassthrough();
+      player.setEvents();
       k.camPos(player.pos);
       continue;
     }

@@ -42,7 +42,9 @@ export function setMapColliders(k, map, colliders) {
       ]);
 
       bossBarrier.onCollide("player", async (player) => {
-        if (state.current().playerInBossFight) return;
+        const currentState = state.current();
+        if (currentState.playerInBossFight || currentState.isBossDefeated)
+          return;
         player.disableControls();
         player.play("idle");
         await k.tween(
@@ -56,7 +58,9 @@ export function setMapColliders(k, map, colliders) {
       });
 
       bossBarrier.onCollideEnd("player", () => {
-        if (state.current().playerInBossFight) return;
+        const currentState = state.current();
+        if (currentState.playerInBossFight || currentState.isBossDefeated)
+          return;
 
         state.set("playerInBossFight", true);
 
