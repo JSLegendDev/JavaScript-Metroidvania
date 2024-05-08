@@ -56,6 +56,19 @@ k.loadSpriteAtlas("../assets/ui.png", {
   },
 });
 
+k.loadSpriteAtlas("../assets/animations.png", {
+  cartridge: {
+    x: 125,
+    y: 145,
+    width: 134,
+    height: 16,
+    sliceX: 8,
+    anims: {
+      default: { from: 0, to: 4, loop: true, speed: 7 },
+    },
+  },
+});
+
 k.loadSprite("tileset", "../assets/tileset.png", {
   sliceX: 33,
   sliceY: 21,

@@ -1,5 +1,6 @@
 import { makeBoss } from "../entities/enemyBoss.js";
 import { makeDrone } from "../entities/enemyDrone.js";
+import { makeCartridge } from "../entities/healthCartridge.js";
 import { makePlayer } from "../entities/player.js";
 import { state } from "../state/GlobalStateManager.js";
 import { healthBar } from "../ui/healthBar.js";
@@ -79,6 +80,10 @@ export async function room1(
       const boss = map.add(makeBoss(k, k.vec2(position.x, position.y)));
       boss.setBehavior();
       boss.setEvents();
+    }
+
+    if (position.type === "cartridge") {
+      map.add(makeCartridge(k, k.vec2(position.x, position.y)));
     }
   }
 

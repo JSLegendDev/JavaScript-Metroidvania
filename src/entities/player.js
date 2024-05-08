@@ -1,5 +1,4 @@
 import { state, statePropsEnum } from "../state/GlobalStateManager.js";
-import { maxPlayerHp } from "../state/constants.js";
 import { healthBar } from "../ui/healthBar.js";
 import { makeBlink } from "./entitySharedLogic.js";
 
@@ -33,7 +32,7 @@ export function makePlayer(k) {
 
         this.controlHandlers.push(
           k.onKeyPress((key) => {
-            if (key === "space") {
+            if (key === "x") {
               if (this.curAnim() !== "jump") this.play("jump");
               this.doubleJump();
             }
@@ -123,6 +122,11 @@ export function makePlayer(k) {
           this.play("fall");
         });
 
+        this.on("heal", () => {
+          state.set(statePropsEnum.playerHp, this.hp());
+          healthBar.trigger("update");
+        });
+
         this.on("hurt", () => {
           makeBlink(k, this);
           if (this.hp() > 0) {
@@ -131,7 +135,7 @@ export function makePlayer(k) {
             return;
           }
 
-          state.set(statePropsEnum.playerHp, maxPlayerHp);
+          state.set(statePropsEnum.playerHp, state.current().maxPlayerHp);
           this.play("explode");
         });
 

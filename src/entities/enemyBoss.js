@@ -32,8 +32,9 @@ export function makeBoss(k, initialPos) {
           }
         });
 
+        this.onStateEnter("follow", () => this.play("run"));
+
         this.onStateUpdate("follow", () => {
-          if (this.curAnim() !== "run") this.play("run");
           this.flipX = player.pos.x <= this.pos.x;
           this.moveTo(
             k.vec2(player.pos.x, player.pos.y + 12),
@@ -107,12 +108,13 @@ export function makeBoss(k, initialPos) {
           this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");
-          k.add(
+          const notification = k.add(
             makeNotificationBox(
               k,
               "You unlocked a new ability!\nYou can now double jump."
             )
           );
+          k.wait(3, () => notification.close());
           state.set(statePropsEnum.isBossDefeated, true);
           state.set(statePropsEnum.isDoubleJumpUnlocked, true);
           player.enableDoubleJump();

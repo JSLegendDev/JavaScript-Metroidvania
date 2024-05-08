@@ -1,3 +1,4 @@
+import { makeCartridge } from "../entities/healthCartridge.js";
 import { makePlayer } from "../entities/player.js";
 import { healthBar } from "../ui/healthBar.js";
 import {
@@ -48,6 +49,10 @@ export function room2(k, roomData, previousSceneData) {
       player.setEvents();
       k.camPos(player.pos);
       continue;
+    }
+
+    if (position.type === "cartridge") {
+      map.add(makeCartridge(k, k.vec2(position.x, position.y)));
     }
   }
 
