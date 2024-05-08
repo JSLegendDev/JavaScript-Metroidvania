@@ -39,12 +39,53 @@ export function setMapColliders(k, map, colliders) {
         }),
         k.opacity(0),
         "boss-barrier",
+        {
+          activate() {
+            k.tween(
+              this.opacity,
+              0.3,
+              1,
+              (val) => (this.opacity = val),
+              k.easings.linear
+            );
+
+            k.tween(
+              k.camPos().x,
+              collider.properties[0].value,
+              1,
+              (val) => k.camPos(val, k.camPos().y),
+              k.easings.linear
+            );
+          },
+          async deactivate(playerPosX) {
+            k.tween(
+              this.opacity,
+              0,
+              1,
+              (val) => (this.opacity = val),
+              k.easings.linear
+            );
+            await k.tween(
+              k.camPos().x,
+              playerPosX,
+              1,
+              (val) => k.camPos(val, k.camPos().y),
+              k.easings.linear
+            );
+            k.destroy(this);
+          },
+        },
       ]);
 
       bossBarrier.onCollide("player", async (player) => {
         const currentState = state.current();
-        if (currentState.playerInBossFight || currentState.isBossDefeated)
+        if (currentState.isBossDefeated) {
+          state.set(statePropsEnum.playerInBossFight, false);
+          bossBarrier.deactivate(player.pos.x);
           return;
+        }
+
+        if (currentState.playerInBossFight) return;
         player.disableControls();
         player.play("idle");
         await k.tween(
@@ -64,21 +105,7 @@ export function setMapColliders(k, map, colliders) {
 
         state.set(statePropsEnum.playerInBossFight, true);
 
-        k.tween(
-          bossBarrier.opacity,
-          0.3,
-          1,
-          (val) => (bossBarrier.opacity = val),
-          k.easings.linear
-        );
-
-        k.tween(
-          k.camPos().x,
-          collider.properties[0].value,
-          1,
-          (val) => k.camPos(val, k.camPos().y),
-          k.easings.linear
-        );
+        bossBarrier.activate();
         bossBarrier.use(k.body({ isStatic: true }));
       });
 

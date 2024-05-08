@@ -109,9 +109,6 @@ export function makeBoss(k, initialPos) {
           state.set(statePropsEnum.isBossDefeated, true);
           state.set(statePropsEnum.isDoubleJumpUnlocked, true);
           player.enableDoubleJump();
-          state.set(statePropsEnum.playerInBossFight, false);
-          const bossBarrier = k.get("boss-barrier", { recursive: true })[0];
-          if (bossBarrier) k.destroy(bossBarrier);
         });
 
         this.on("hurt", () => {
