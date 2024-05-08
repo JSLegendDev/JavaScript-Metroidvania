@@ -197,6 +197,11 @@ export function setExitZones(k, map, exits, destinationName) {
         k.easings.linear
       );
 
+      if (exit.name === "final-exit") {
+        k.go("final-exit");
+        return;
+      }
+
       k.go(destinationName, { exitName: exit.name });
     });
   }

@@ -1,6 +1,8 @@
 import { k } from "./kaboomLoader.js";
 import { room1 } from "./scenes/room1.js";
 import { room2 } from "./scenes/room2.js";
+import { setBackgroundColor } from "./scenes/roomUtils.js";
+import { makeNotificationBox } from "./ui/notificationBox.js";
 
 async function main() {
   const room1Data = await (await fetch("../maps/room1.json")).json();
@@ -12,6 +14,17 @@ async function main() {
   k.scene("room2", (previousSceneData) =>
     room2(k, room2Data, previousSceneData)
   );
+
+  k.scene("final-exit", () => {
+    console.log("Test");
+    setBackgroundColor(k, "#20214a");
+    k.add(
+      makeNotificationBox(
+        k,
+        "You escaped the factory!\n The End. Thanks for playing!"
+      )
+    );
+  });
 
   k.go("room1", { exitName: null });
 }
