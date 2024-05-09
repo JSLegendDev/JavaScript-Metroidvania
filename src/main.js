@@ -23,7 +23,7 @@ async function main() {
   });
 
   k.scene("final-exit", () => {
-    electricBackground.pause = true;
+    electricBackground.stop();
     setBackgroundColor(k, "#20214a");
     k.add(
       makeNotificationBox(
