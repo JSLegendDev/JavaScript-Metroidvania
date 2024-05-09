@@ -85,6 +85,7 @@ export function makeBoss(k, initialPos) {
         const player = k.get("player", { recursive: true })[0];
 
         this.onCollide("sword-hitbox", () => {
+          k.play("boom");
           this.hurt(1);
         });
 
@@ -107,10 +108,12 @@ export function makeBoss(k, initialPos) {
           this.enterState("explode");
           this.collisionIgnore = ["player"];
           this.unuse("body");
+          k.play("boom");
           this.play("explode");
           state.set(statePropsEnum.isBossDefeated, true);
           state.set(statePropsEnum.isDoubleJumpUnlocked, true);
           player.enableDoubleJump();
+          k.play("notify");
           const notification = k.add(
             makeNotificationBox(
               k,

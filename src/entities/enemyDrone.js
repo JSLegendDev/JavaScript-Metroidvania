@@ -75,6 +75,7 @@ export function makeDrone(k, initialPos) {
         });
 
         this.onStateEnter("explode", () => {
+          k.play("boom");
           this.unuse("body");
         });
       },

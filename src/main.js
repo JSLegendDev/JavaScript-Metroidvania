@@ -8,14 +8,22 @@ async function main() {
   const room1Data = await (await fetch("../maps/room1.json")).json();
   const room2Data = await (await fetch("../maps/room2.json")).json();
 
-  k.scene("room1", (previousSceneData) =>
-    room1(k, room1Data, previousSceneData)
-  );
-  k.scene("room2", (previousSceneData) =>
-    room2(k, room2Data, previousSceneData)
-  );
+  const electricBackground = k.play("electric-background", { loop: true });
+  electricBackground.pause = true;
+
+  k.scene("room1", (previousSceneData) => {
+    electricBackground.play(electricBackground.time());
+    room1(k, room1Data, previousSceneData);
+    k.onSceneLeave(() => (electricBackground.pause = true));
+  });
+  k.scene("room2", (previousSceneData) => {
+    electricBackground.play(electricBackground.time());
+    room2(k, room2Data, previousSceneData);
+    k.onSceneLeave(() => (electricBackground.pause = true));
+  });
 
   k.scene("final-exit", () => {
+    electricBackground.pause = true;
     setBackgroundColor(k, "#20214a");
     k.add(
       makeNotificationBox(

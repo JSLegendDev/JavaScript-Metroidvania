@@ -9,6 +9,7 @@ export function makeCartridge(k, pos) {
   ]);
 
   cartridge.onCollide("player", (player) => {
+    k.play("health", { volume: 0.5 });
     if (player.hp() < state.current().maxPlayerHp) {
       player.heal(1);
     }
