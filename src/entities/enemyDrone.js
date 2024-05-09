@@ -12,7 +12,6 @@ export function makeDrone(k, initialPos) {
       "alert",
       "attack",
       "retreat",
-      "explode",
     ]),
     k.health(1),
     "drone",
@@ -73,20 +72,14 @@ export function makeDrone(k, initialPos) {
             this.pursuitSpeed
           );
         });
-
-        this.onStateEnter("explode", () => {
-          k.play("boom");
-          this.unuse("body");
-        });
       },
 
       setEvents() {
         const player = k.get("player", { recursive: true })[0];
 
-        this.onCollide("player", async () => {
+        this.onCollide("player", () => {
           if (player.isAttacking) return;
-
-          this.trigger("explode");
+          this.hurt(1);
           player.hurt(1);
         });
 
@@ -97,7 +90,7 @@ export function makeDrone(k, initialPos) {
         });
 
         this.on("explode", () => {
-          this.enterState("explode");
+          k.play("boom");
           this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");
@@ -110,8 +103,9 @@ export function makeDrone(k, initialPos) {
         // event defined by default by the health component
         // when health is removed
         this.on("hurt", () => {
-          if (this.hp() > 0) return;
-          this.trigger("explode");
+          if (this.hp() === 0) {
+            this.trigger("explode");
+          }
         });
 
         this.onExitScreen(() => {
