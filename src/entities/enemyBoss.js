@@ -108,6 +108,9 @@ export function makeBoss(k, initialPos) {
           this.collisionIgnore = ["player"];
           this.unuse("body");
           this.play("explode");
+          state.set(statePropsEnum.isBossDefeated, true);
+          state.set(statePropsEnum.isDoubleJumpUnlocked, true);
+          player.enableDoubleJump();
           const notification = k.add(
             makeNotificationBox(
               k,
@@ -115,9 +118,6 @@ export function makeBoss(k, initialPos) {
             )
           );
           k.wait(3, () => notification.close());
-          state.set(statePropsEnum.isBossDefeated, true);
-          state.set(statePropsEnum.isDoubleJumpUnlocked, true);
-          player.enableDoubleJump();
         });
 
         this.on("hurt", () => {

@@ -8,17 +8,6 @@ async function main() {
   const room1Data = await (await fetch("../maps/room1.json")).json();
   const room2Data = await (await fetch("../maps/room2.json")).json();
 
-  k.scene("intro", () => {
-    setBackgroundColor(k, "#20214a");
-    k.add(
-      makeNotificationBox(
-        k,
-        "Escape the factory!\nUse arrow keys to move, x to jump, z to attack.\nPress Enter to start!"
-      )
-    );
-    k.onKeyPress("enter", () => k.go("room1", { exitName: null }));
-  });
-
   k.scene("room1", (previousSceneData) =>
     room1(k, room1Data, previousSceneData)
   );
@@ -35,8 +24,19 @@ async function main() {
       )
     );
   });
-
-  k.go("intro");
 }
+
+k.scene("intro", () => {
+  setBackgroundColor(k, "#20214a");
+  k.add(
+    makeNotificationBox(
+      k,
+      "Escape the factory!\nUse arrow keys to move, x to jump, z to attack.\nPress Enter to start!"
+    )
+  );
+  k.onKeyPress("enter", () => k.go("room1", { exitName: null }));
+});
+
+k.go("intro");
 
 main();

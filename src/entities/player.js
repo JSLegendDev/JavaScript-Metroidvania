@@ -105,6 +105,18 @@ export function makePlayer(k) {
         }
       },
 
+      respawnIfOutOfBounds(
+        boundValue,
+        destinationName,
+        previousSceneData = { exitName: null }
+      ) {
+        k.onUpdate(() => {
+          if (this.pos.y > boundValue) {
+            k.go(destinationName, previousSceneData);
+          }
+        });
+      },
+
       setEvents() {
         // when player falls after jumping
         this.onFall(() => {

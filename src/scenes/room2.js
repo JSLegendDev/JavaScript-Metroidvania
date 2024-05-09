@@ -47,6 +47,7 @@ export function room2(k, roomData, previousSceneData) {
       player.setControls();
       player.enablePassthrough();
       player.setEvents();
+      player.respawnIfOutOfBounds(1000, "room2", { exitName: "exit-2" });
       k.camPos(player.pos);
       continue;
     }

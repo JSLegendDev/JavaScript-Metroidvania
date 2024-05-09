@@ -42,6 +42,7 @@ export async function room1(
       player.setControls();
       player.enablePassthrough();
       player.setEvents();
+      player.respawnIfOutOfBounds(1000, "room1");
       continue;
     }
 
@@ -53,6 +54,7 @@ export async function room1(
       player.setControls();
       player.enablePassthrough();
       player.setEvents();
+      player.respawnIfOutOfBounds(1000, "room1");
       k.camPos(player.pos);
       continue;
     }
@@ -65,6 +67,7 @@ export async function room1(
       player.setControls();
       player.enablePassthrough();
       player.setEvents();
+      player.respawnIfOutOfBounds(1000, "room1");
       k.camPos(player.pos);
       continue;
     }
