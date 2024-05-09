@@ -66,7 +66,7 @@ export function makePlayer(k) {
 
         this.controlHandlers.push(
           k.onKeyDown((key) => {
-            if (key === "left") {
+            if (key === "left" && !this.isAttacking) {
               if (this.curAnim() !== "run" && this.isGrounded()) {
                 this.play("run");
               }
@@ -75,7 +75,7 @@ export function makePlayer(k) {
               return;
             }
 
-            if (key === "right") {
+            if (key === "right" && !this.isAttacking) {
               if (this.curAnim() !== "run" && this.isGrounded()) {
                 this.play("run");
               }

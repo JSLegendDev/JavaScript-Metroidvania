@@ -674,7 +674,7 @@
                  "id":114,
                  "name":"",
                  "rotation":0,
-                 "type":"",
+                 "type":"passthrough",
                  "visible":true,
                  "width":16,
                  "x":96,
@@ -915,7 +915,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
