@@ -1,4 +1,4 @@
-import { state, statePropsEnum } from "../state/GlobalStateManager.js";
+import { state, statePropsEnum } from "../state/globalStateManager.js";
 import { makeBlink } from "./entitySharedLogic.js";
 import { makeNotificationBox } from "../ui/notificationBox.js";
 

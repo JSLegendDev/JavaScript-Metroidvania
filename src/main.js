@@ -8,25 +8,14 @@ async function main() {
   const room1Data = await (await fetch("../maps/room1.json")).json();
   const room2Data = await (await fetch("../maps/room2.json")).json();
 
-  const factoryBackground = k.play("factory-background", {
-    volume: 1,
-    loop: true,
-  });
-  factoryBackground.pause = true;
-
   k.scene("room1", (previousSceneData) => {
-    factoryBackground.play(factoryBackground.time());
     room1(k, room1Data, previousSceneData);
-    k.onSceneLeave(() => (factoryBackground.pause = true));
   });
   k.scene("room2", (previousSceneData) => {
-    factoryBackground.play(factoryBackground.time());
     room2(k, room2Data, previousSceneData);
-    k.onSceneLeave(() => (factoryBackground.pause = true));
   });
 
   k.scene("final-exit", () => {
-    factoryBackground.stop();
     setBackgroundColor(k, "#20214a");
     k.add(
       makeNotificationBox(
