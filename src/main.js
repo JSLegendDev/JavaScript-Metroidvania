@@ -34,7 +34,12 @@ k.scene("intro", () => {
       "Escape the factory!\nUse arrow keys to move, x to jump, z to attack.\nPress Enter to start!"
     )
   );
-  k.onKeyPress("enter", () => k.go("room1", { exitName: null }));
+  k.onKeyPress("enter", () => {
+    // makes audio will be enabled before the game starts
+    const context = new AudioContext();
+    context.resume();
+    k.go("room1", { exitName: null });
+  });
 });
 
 k.go("intro");
