@@ -6,6 +6,7 @@ export const k = kaboom({
   height: 360 * scale,
   scale,
   letterbox: true,
+  global: false,
 });
 
 k.loadFont("glyphmesss", "./assets/glyphmesss.ttf");
